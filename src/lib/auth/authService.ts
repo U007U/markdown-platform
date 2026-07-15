@@ -42,7 +42,7 @@ export class AuthService {
       return { success: false, message: 'Failed to create user' }
     }
 
-    generateEmailVerificationToken((user as unknown as User).id)
+    await generateEmailVerificationToken((user as unknown as User).id)
 
     return { success: true, user: user as unknown as User }
   }
@@ -85,7 +85,7 @@ export class AuthService {
       return { success: true, message: 'If email exists, reset link has been sent' }
     }
 
-    generatePasswordResetToken(user.id)
+    await generatePasswordResetToken(user.id)
 
     return { success: true, message: 'If email exists, reset link has been sent' }
   }

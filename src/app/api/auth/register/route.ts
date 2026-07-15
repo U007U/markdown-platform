@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createDB } from '@/lib/db/client'
+import { register } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
-    const db = createDB()
-    const { register } = await import('@/lib/auth')
     const data = await request.json()
 
     const result = await register(data)

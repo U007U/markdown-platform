@@ -1,12 +1,13 @@
 import { type D1Database } from '@cloudflare/workers-types'
-import { createHash, randomBytes } from 'crypto'
 
-export function generateToken(length: number = 32): string {
-  return randomBytes(length).toString('hex')
+export async function generateToken(length: number = 32): Promise<string> {
+  const bytes = new Uint8Array(length)
+  crypto.getRandomValues(bytes)
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
 }
 
-export function generateEmailVerificationToken(userId: string): string {
-  const token = generateToken(32)
+export async function generateEmailVerificationToken(userId: string): Promise<string> {
+  const token = await generateToken(32)
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
 
   return JSON.stringify({
@@ -16,8 +17,8 @@ export function generateEmailVerificationToken(userId: string): string {
   })
 }
 
-export function generatePasswordResetToken(userId: string): string {
-  const token = generateToken(32)
+export async function generatePasswordResetToken(userId: string): Promise<string> {
+  const token = await generateToken(32)
   const expiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000).toISOString()
 
   return JSON.stringify({
@@ -40,6 +41,9 @@ export function verifyToken(token: string): { userId: string; expiresAt: string 
   }
 }
 
-export function hashToken(token: string): string {
-  return createHash('sha256').update(token).digest('hex')
+export async function hashToken(token: string): Promise<string> {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(token)
+  const hash = await crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(hash), (b) => b.toString(16).padStart(2, '0')).join('')
 }
