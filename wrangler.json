@@ -1,0 +1,20 @@
+{
+  "name": "markdown-platform",
+  "compatibility_date": "2024-01-01",
+  "pages_build_output_dir": ".next",
+  "migrations_dir": "./d1/migrations",
+  "database": {
+    "bindings": [
+      {
+        "binding": "D1_DATABASE",
+        "database_name": "markdown_platform_db",
+        "database_id": "your-database-id-here"
+      }
+    ]
+  },
+  "env": {
+    "production": {
+      "AUTH_SECRET": "${AUTH_SECRET}"
+    }
+  }
+}

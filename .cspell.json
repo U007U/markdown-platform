@@ -1,0 +1,26 @@
+import { defineConfig } from 'cspell'
+
+export default defineConfig({
+  language: 'en',
+  words: [
+    'markdown',
+    'designsystem',
+    'github',
+    'typography',
+    'tailwindcss',
+    'classvariance',
+    'clsx',
+    'twmerge',
+    'lucide',
+    'postcss',
+  ],
+  flagWords: ['helo', 'teh'],
+  ignorePaths: [
+    'node_modules/',
+    '.next/',
+    'out/',
+    'dist/',
+    'package-lock.json',
+    '.eslintrc.json',
+  ],
+})

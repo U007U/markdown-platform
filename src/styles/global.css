@@ -1,0 +1,186 @@
+/* Global Styles */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-text-primary font-sans antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold text-text-primary;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl font-extrabold tracking-tight;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold tracking-tight;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold tracking-tight;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl font-medium tracking-tight;
+  }
+
+  h6 {
+    @apply text-base md:text-lg font-medium tracking-tight;
+  }
+
+  p {
+    @apply text-base leading-relaxed text-text-secondary;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-700 transition-colors;
+  }
+
+  code {
+    @apply font-mono text-sm bg-background-alt px-2 py-1 rounded-md;
+  }
+
+  pre {
+    @apply font-mono text-sm p-4 bg-background-dark rounded-lg overflow-x-auto;
+  }
+
+  blockquote {
+    @apply border-l-4 border-primary pl-4 py-2 my-4 italic;
+  }
+
+  ul,
+  ol {
+    @apply my-4 ml-6 space-y-2;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply text-text-secondary;
+  }
+
+  /* Utilities */
+  .container {
+    @apply mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-ellipsis {
+    @apply truncate;
+  }
+
+  .text-clamp {
+    @apply line-clamp-2;
+  }
+
+  .sr-only {
+    @apply sr-only;
+  }
+
+  .focus-ring {
+    @apply focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none;
+  }
+}
+
+@layer components {
+  /* Button Variants */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-700 focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-700 focus:ring-secondary;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-text-secondary hover:bg-background-alt hover:text-text-primary;
+  }
+
+  .btn-icon {
+    @apply p-2 rounded-full;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-surface rounded-xl border border-border shadow-sm;
+  }
+
+  .card-header {
+    @apply p-6 border-b border-border;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .card-footer {
+    @apply p-6 border-t border-border bg-background-alt;
+  }
+
+  /* Input */
+  .input {
+    @apply block w-full rounded-md border border-border px-3 py-2 text-sm shadow-sm placeholder:text-text-tertiary focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-primary text-white;
+  }
+
+  .badge-secondary {
+    @apply bg-secondary text-white;
+  }
+
+  .badge-success {
+    @apply bg-success text-white;
+  }
+
+  .badge-warning {
+    @apply bg-warning text-white;
+  }
+
+  .badge-error {
+    @apply bg-error text-white;
+  }
+
+  /* Loading Skeleton */
+  .skeleton {
+    @apply animate-pulse rounded-md bg-text-tertiary/20;
+  }
+}

@@ -1,0 +1,64 @@
+name: Update Deployment Status
+
+on:
+  deployment_status:
+    types: [created]
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read current README
+        id: readme
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: README.md
+
+      - name: Add deployment badge to README
+        run: |
+          DEPLOYMENT_URL="${{ github.event.deployment_status.target_url }}"
+          BADGE_URL="https://img.shields.io/website?url=${{ github.event.deployment_status.target_url }}"
+          echo "# Site Markdown" > README.md
+          echo "" >> README.md
+          echo "[![Deployed on Vercel]($BADGE_URL)]($DEPLOYMENT_URL)" >> README.md
+          echo "" >> README.md
+          echo "A Next.js 14+ project with TypeScript." >> README.md
+          echo "" >> README.md
+          echo "## Setup" >> README.md
+          echo "" >> README.md
+          echo "```bash" >> README.md
+          echo "npm install" >> README.md
+          echo "npm run dev" >> README.md
+          echo "```" >> README.md
+          echo "" >> README.md
+          echo "## Structure" >> README.md
+          echo "" >> README.md
+          echo "- \`src/app\` - Next.js App Router" >> README.md
+          echo "- \`src/components\` - Reusable components" >> README.md
+          echo "- \`src/lib\` - Utility functions" >> README.md
+          echo "- \`src/types\` - TypeScript definitions" >> README.md
+          echo "- \`src/styles\` - Global styles" >> README.md
+          echo "- \`src/public\` - Static assets" >> README.md
+          echo "" >> README.md
+          echo "---" >> README.md
+          echo "" >> README.md
+          echo "*This README was automatically updated by the CI/CD pipeline.*" >> README.md
+          echo "" >> README.md
+          echo "## Deployment" >> README.md
+          echo "" >> README.md
+          echo "[![Deployed on Vercel]($BADGE_URL)]($DEPLOYMENT_URL)" >> README.md
+
+      - name: Commit updated README
+        uses: github-actions-x/commit@v2.9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          message: "docs: update deployment status badge in README"
+          push-branch: main
+
