@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createDB } from '@/lib/db/client'
+import { verifyEmail } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
-    const db = createDB()
-    const { verifyEmail } = await import('@/lib/auth')
     const data = await request.json()
-
     const result = await verifyEmail(data.token)
 
     if (result.success) {

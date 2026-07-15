@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createDB } from '@/lib/db/client'
+import { getSessionFromRequest } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
     const db = createDB()
-    const { getSessionFromRequest } = await import('@/lib/auth')
     const session = await getSessionFromRequest(request, db)
 
     if (!session) {

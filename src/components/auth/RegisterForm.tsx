@@ -60,7 +60,7 @@ export function RegisterForm() {
         return
       }
 
-      router.push('/auth/verify-email')
+      router.push('/auth')
       router.refresh()
     } catch (err) {
       setError('Network error. Please try again.')
@@ -161,7 +161,7 @@ export function RegisterForm() {
       <div className="mt-6 text-center text-sm">
         <p>
           Already have an account?{' '}
-          <a href="/auth/signin" className="text-primary hover:underline">
+          <a href="/auth" className="text-primary hover:underline">
             Sign in
           </a>
         </p>

@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createDB } from '@/lib/db/client'
+import { logout } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
-    const db = createDB()
-    const { logout } = await import('@/lib/auth')
     const sessionToken = request.cookies.get('session_id')?.value
 
     if (!sessionToken) {

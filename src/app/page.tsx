@@ -44,7 +44,7 @@ export default async function Home() {
             <Link href="/documents">
               <Button size="lg">Browse Documents</Button>
             </Link>
-            <Link href="/auth/register">
+            <Link href="/auth/signup">
               <Button variant="outline" size="lg">Get Started</Button>
             </Link>
           </div>
