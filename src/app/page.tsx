@@ -1,38 +1,35 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { DocumentCard } from '@/components/documents/DocumentCard'
 import { Button } from '@/components/ui/Button'
+import { createDB } from '@/lib/db/client'
 import type { Document } from '@/types/database'
 
-export default function Home() {
-  const [featured, setFeatured] = useState<Document[]>([])
-  const [trending, setTrending] = useState<Document[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
-    try {
-      const [featuredRes, trendingRes] = await Promise.all([
-        fetch('/api/documents/featured?limit=3'),
-        fetch('/api/documents/trending?limit=3'),
-      ])
-
-      const featuredData = await featuredRes.json()
-      const trendingData = await trendingRes.json()
-
-      setFeatured(featuredData.documents || [])
-      setTrending(trendingData.documents || [])
-    } catch (err) {
-      console.error('Failed to fetch data:', err)
-    } finally {
-      setLoading(false)
-    }
+async function getFeaturedDocs(): Promise<Document[]> {
+  try {
+    const db = createDB()
+    const result = await db.prepare(
+      "SELECT * FROM documents WHERE status = 'published' AND visibility = 'public' AND is_featured = 1 AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 3"
+    ).all<Document>()
+    return result.results || []
+  } catch {
+    return []
   }
+}
+
+async function getTrendingDocs(): Promise<Document[]> {
+  try {
+    const db = createDB()
+    const result = await db.prepare(
+      "SELECT * FROM documents WHERE status = 'published' AND visibility = 'public' AND deleted_at IS NULL ORDER BY view_count DESC LIMIT 3"
+    ).all<Document>()
+    return result.results || []
+  } catch {
+    return []
+  }
+}
+
+export default async function Home() {
+  const [featured, trending] = await Promise.all([getFeaturedDocs(), getTrendingDocs()])
 
   return (
     <div className="min-h-screen">
@@ -55,7 +52,7 @@ export default function Home() {
       </section>
 
       {/* Featured Documents */}
-      {!loading && featured.length > 0 && (
+      {featured.length > 0 && (
         <section className="py-12 px-4 bg-gray-50">
           <div className="container mx-auto max-w-5xl">
             <div className="flex items-center justify-between mb-6">
@@ -74,7 +71,7 @@ export default function Home() {
       )}
 
       {/* Trending Documents */}
-      {!loading && trending.length > 0 && (
+      {trending.length > 0 && (
         <section className="py-12 px-4">
           <div className="container mx-auto max-w-5xl">
             <div className="flex items-center justify-between mb-6">
