@@ -47,6 +47,14 @@ export class D1Client {
 }
 
 export function createDB(): D1Database {
+  try {
+    const { getCloudflareContext } = require('@opennextjs/cloudflare')
+    const { env } = getCloudflareContext()
+    if (env.D1_DATABASE) {
+      return env.D1_DATABASE as unknown as D1Database
+    }
+  } catch {}
+
   const db = (globalThis as any).__D1_DATABASE__
   if (!db) {
     throw new Error(
