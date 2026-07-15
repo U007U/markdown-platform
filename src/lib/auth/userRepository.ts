@@ -30,9 +30,9 @@ export class UserRepository {
 
     await this.db
       .prepare(
-        'INSERT INTO users (id, email, username, display_name, avatar_url, role, email_verified, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?)'
+        'INSERT INTO users (id, email, username, password, display_name, avatar_url, role, email_verified, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)'
       )
-      .bind(id, data.email, data.username, data.display_name || null, data.avatar_url || null, data.role || 'user', createdAt)
+      .bind(id, data.email, data.username, data.password, data.display_name || null, data.avatar_url || null, data.role || 'user', createdAt)
       .run()
 
     return this.findById(id)
